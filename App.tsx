@@ -4,12 +4,13 @@ import Animated, { useAnimatedRef, useAnimatedScrollHandler, useSharedValue } fr
 import data, { OnboardingData } from './src/data/data'
 import RenderItem from './src/components/RenderItem';
 import Pagination from './src/components/Pagination';
+import CustomButton from './src/components/CustomButton';
 
 
 const App = () => {
-  const flatListRef = useAnimatedRef<FlatList<OnboardingData>>();
+  const flatlistRef = useAnimatedRef<FlatList<OnboardingData>>();
   const x = useSharedValue(0);
-  const flatListIndex = useSharedValue(0);
+  const flatlistIndex = useSharedValue(0);
 
   const onScroll = useAnimatedScrollHandler({
     onScroll: event => {
@@ -19,7 +20,7 @@ const App = () => {
 
   const onViewableItemsChanged = ({ viewableItems }: { viewableItems: ViewToken[] }) => {
     if (viewableItems[0].index !== null) {
-      flatListIndex.value = viewableItems[0].index;
+      flatlistIndex.value = viewableItems[0].index;
     }
   }
 
@@ -27,7 +28,7 @@ const App = () => {
     <View style={styles.container}>
       <StatusBar hidden />
       <Animated.FlatList
-        ref={flatListRef}
+        ref={flatlistRef}
         data={data}
         onScroll={onScroll}
         renderItem={({ item, index }) => {
@@ -47,6 +48,12 @@ const App = () => {
       />
       <View style={styles.bottomContainer}>
         <Pagination data={data} x={x} />
+        <CustomButton 
+          flatlistRef={flatlistRef}
+          flatlistIndex={flatlistIndex}
+          dataLength={data.length}
+          x={x}
+        />
       </View>
     </View>
   )
@@ -64,6 +71,9 @@ const styles = StyleSheet.create({
     right: 0,
     left: 0,
     marginHorizontal: 30,
-    paddingVertical: 30
+    paddingVertical: 30,
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center'
   }
 })
