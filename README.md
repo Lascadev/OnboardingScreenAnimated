@@ -1,4 +1,4 @@
-# Onboarding Screen Example
+# Onboarding Screen Reanimated
 
 <p>
   <!-- iOS -->
